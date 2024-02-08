@@ -1,4 +1,4 @@
-import Styles from "./PopularCardsFrgagment.module.css";
+import Styles from "./CardsFragment.module.css";
 
 export const PopularCardsFragment = () => {
   return (

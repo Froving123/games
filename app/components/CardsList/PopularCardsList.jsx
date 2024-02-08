@@ -1,5 +1,5 @@
 import { PopularCardsFragment } from "./PopularCardsFragment";
-import Styles from "./PopularCardsList.module.css";
+import Styles from "./CardsList.module.css";
 
 export const PopularCardList = () => {
   return (

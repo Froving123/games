@@ -1,5 +1,5 @@
 import { NewCardsFragment } from "./NewCardsFragment";
-import Styles from "./NewCardsList.module.css";
+import Styles from "./CardsList.module.css";
 
 export const NewCardList = () => {
   return (
