@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <main>
       <Banner />
-      <CardsList id="popular" title="Популярные" />
+      <CardsList id="Popular" title="Популярные" />
       <CardsList id="New" title="Новинки" />
       <Promo />
     </main>

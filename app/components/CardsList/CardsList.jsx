@@ -9,7 +9,7 @@ export const CardsList = (props) => {
         {props.title}
       </h2>
       <ul className={Styles["cards-list"]}>
-        {props.id === "popular" ? <NewCardsFragment /> : <PopularCardsFragment />}
+        {props.id === "Popular" ? <PopularCardsFragment /> : <NewCardsFragment />}
       </ul>
     </section>
   );
