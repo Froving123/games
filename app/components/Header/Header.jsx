@@ -2,10 +2,21 @@
 
 import Styles from "./Header.module.css";
 import { useState } from "react";
-
-const [isPopUpOpened, setIsPopUpOpened] = useState(false);
+import { Overlay } from "../Overlay/Overlay";
+import { Popup } from "../Popup/Popup";
+import { AuthForm } from "../AuthForm/AuthForm";
 
 export const Header = () => {
+  const [popupIsOpened, setPopupIsOpened] = useState(false);
+
+  const openPopup = () => {
+    setPopupIsOpened(true);
+  };
+
+  const closePopup = () => {
+    setPopupIsOpened(false);
+  };
+
   return (
     <header className={Styles["header"]}>
       <a href="./index.html" className={Styles["logo"]}>
@@ -50,6 +61,10 @@ export const Header = () => {
           </button>
         </div>
       </nav>
+      <Overlay isOpened={popupIsOpened} close={closePopup}/>
+      <Popup isOpened={popupIsOpened} close={closePopup}>
+          <AuthForm />
+      </Popup>
     </header>
   );
 };
