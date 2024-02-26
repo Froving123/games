@@ -1,0 +1,11 @@
+import { CardsList } from "../components/CardsList/CardsList";
+import { getGamesByCategory } from "../data/data.utils";
+
+export default function Pixel() {
+    const pixelGames = getGamesByCategory("pixel");
+  return (
+    <main>
+      <CardsList id="Pixel" title="Пиксельные" data={pixelGames} />
+    </main>
+  );
+}

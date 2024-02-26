@@ -1,6 +1,7 @@
 "use client";
 
 import Styles from "./Header.module.css";
+import Link from 'next/link';
 import { useState } from "react";
 import { Overlay } from "../Overlay/Overlay";
 import { Popup } from "../Popup/Popup";
@@ -19,40 +20,40 @@ export const Header = () => {
 
   return (
     <header className={Styles["header"]}>
-      <a href="./index.html" className={Styles["logo"]}>
+      <Link href="/" className={Styles["logo"]}>
         <img className={Styles["logo__image"]} src="./images/logo.svg" alt="Логотип Pindie" />
-      </a>
+      </Link>
       <nav className={Styles["menu"]}>
         <ul className={Styles["menu__list"]}>
           <li className={Styles["menu__item"]}>
-            <a href="" className={Styles["menu__link"]}>
+            <Link href="/new" className={Styles["menu__link"]}>
               Новинки
-            </a>
+            </Link>
           </li>
           <li className={Styles["menu__item"]}>
-            <a href="" className={Styles["menu__link"]}>
+            <Link href="/popular" className={Styles["menu__link"]}>
               Популярные
-            </a>
+            </Link>
           </li>
           <li className={Styles["menu__item"]}>
-            <a href="" className={Styles["menu__link"]}>
+            <Link href="/shooter" className={Styles["menu__link"]}>
               Шутеры
-            </a>
+            </Link>
           </li>
           <li className={Styles["menu__item"]}>
-            <a href="" className={Styles["menu__link"]}>
+            <Link href="/runner" className={Styles["menu__link"]}>
               Ранеры
-            </a>
+            </Link>
           </li>
           <li className={Styles["menu__item"]}>
-            <a href="" className={Styles["menu__link"]}>
+            <Link href="/pixel" className={Styles["menu__link"]}>
               Пиксельные
-            </a>
+            </Link>
           </li>
           <li className={Styles["menu__item"]}>
-            <a href="" className={Styles["menu__link"]}>
+            <Link href="/TDS" className={Styles["menu__link"]}>
               TDS
-            </a>
+            </Link>
           </li>
         </ul>
         <div className={Styles["auth"]}>
