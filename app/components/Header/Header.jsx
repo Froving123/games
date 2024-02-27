@@ -1,7 +1,8 @@
 "use client";
 
 import Styles from "./Header.module.css";
-import Link from 'next/link';
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Overlay } from "../Overlay/Overlay";
 import { Popup } from "../Popup/Popup";
@@ -9,6 +10,7 @@ import { AuthForm } from "../AuthForm/AuthForm";
 
 export const Header = () => {
   const [popupIsOpened, setPopupIsOpened] = useState(false);
+  const pathname = usePathname();
 
   const openPopup = () => {
     setPopupIsOpened(true);
@@ -26,32 +28,62 @@ export const Header = () => {
       <nav className={Styles["menu"]}>
         <ul className={Styles["menu__list"]}>
           <li className={Styles["menu__item"]}>
-            <Link href="/new" className={Styles["menu__link"]}>
+            <Link
+              href="/new"
+              className={`${Styles["menu__link"]} ${
+                pathname === "/new" ? Styles["menu__link_active"] : ""
+              }`}
+            >
               Новинки
             </Link>
           </li>
           <li className={Styles["menu__item"]}>
-            <Link href="/popular" className={Styles["menu__link"]}>
+            <Link
+              href="/popular"
+              className={`${Styles["menu__link"]} ${
+                pathname === "/popular" ? Styles["menu__link_active"] : ""
+              }`}
+            >
               Популярные
             </Link>
           </li>
           <li className={Styles["menu__item"]}>
-            <Link href="/shooter" className={Styles["menu__link"]}>
+            <Link
+              href="/shooter"
+              className={`${Styles["menu__link"]} ${
+                pathname === "/shooter" ? Styles["menu__link_active"] : ""
+              }`}
+            >
               Шутеры
             </Link>
           </li>
           <li className={Styles["menu__item"]}>
-            <Link href="/runner" className={Styles["menu__link"]}>
+            <Link
+              href="/runner"
+              className={`${Styles["menu__link"]} ${
+                pathname === "/runner" ? Styles["menu__link_active"] : ""
+              }`}
+            >
               Ранеры
             </Link>
           </li>
           <li className={Styles["menu__item"]}>
-            <Link href="/pixel" className={Styles["menu__link"]}>
+            <Link
+              href="/pixel"
+              className={`${Styles["menu__link"]} ${
+                pathname === "/pixel" ? Styles["menu__link_active"] : ""
+              }`}
+            >
               Пиксельные
             </Link>
           </li>
           <li className={Styles["menu__item"]}>
-            <Link href="/TDS" className={Styles["menu__link"]}>
+            <Link
+              href="/TDS"
+              className={`${Styles["menu__link"]} ${
+                pathname === "/TDS" ? Styles["menu__link_active"] : ""
+              }`}
+            >
               TDS
             </Link>
           </li>
@@ -62,9 +94,9 @@ export const Header = () => {
           </button>
         </div>
       </nav>
-      <Overlay isOpened={popupIsOpened} close={closePopup}/>
+      <Overlay isOpened={popupIsOpened} close={closePopup} />
       <Popup isOpened={popupIsOpened} close={closePopup}>
-          <AuthForm />
+        <AuthForm />
       </Popup>
     </header>
   );
