@@ -1,10 +1,19 @@
 "use client";
 
+import { getNormalizedGameDataById } from "@/app/api/api-utils";
 import Styles from "./Game.module.css";
-import { getGameById } from "/app/data/data.utils";
+import { endpoints } from "@/app/api/config";
+
 
 export default function GamePage(props) {
-  const game = getGameById(props.params.id);
+  useEffect(() => {
+    async function fetchData() {
+        const game = await getNormalizedGameDataById(endpoints.games, props.params.id);
+        game.error ? setGame(null) : setGame(game);
+    }
+    // Вызываем функцию при первом отображении компонента
+    fetchData();
+}, [])
   return (
     <main className="main">
       {game ? (
