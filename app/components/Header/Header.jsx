@@ -10,6 +10,7 @@ import { AuthForm } from "../AuthForm/AuthForm";
 
 export const Header = () => {
   const [popupIsOpened, setPopupIsOpened] = useState(false);
+  const [isAuthorized, setIsAuthorized] = useState(false);
   const pathname = usePathname();
 
   const openPopup = () => {
@@ -96,7 +97,7 @@ export const Header = () => {
       </nav>
       <Overlay isOpened={popupIsOpened} close={closePopup} />
       <Popup isOpened={popupIsOpened} close={closePopup}>
-        <AuthForm />
+        <AuthForm close={closePopup} setAuth={setIsAuthorized}/>
       </Popup>
     </header>
   );

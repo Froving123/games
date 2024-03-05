@@ -2,18 +2,21 @@
 
 import { getNormalizedGameDataById } from "@/app/api/api-utils";
 import Styles from "./Game.module.css";
-import { endpoints } from "@/app/api/config";
-
+import { endpoints, isResponseOk } from "@/app/api/config";
+import { Preloader } from "@/app/components/Preloader/Preloader";
+import { useEffect, useState } from "react";
 
 export default function GamePage(props) {
+  const [preloaderVisible, setPreloaderVisible] = useState(true);
   useEffect(() => {
     async function fetchData() {
-        const game = await getNormalizedGameDataById(endpoints.games, props.params.id);
-        game.error ? setGame(null) : setGame(game);
+      const game = await getNormalizedGameDataById(endpoints.games, props.params.id);
+      isResponseOk(game) ? setGame(game) : setGame(null);
+      setPreloaderVisible(false);
     }
     // Вызываем функцию при первом отображении компонента
     fetchData();
-}, [])
+  }, []);
   return (
     <main className="main">
       {game ? (
@@ -40,6 +43,8 @@ export default function GamePage(props) {
             </div>
           </section>
         </>
+      ) : preloaderVisible ? (
+        <Preloader />
       ) : (
         <GameNotFound />
       )}
