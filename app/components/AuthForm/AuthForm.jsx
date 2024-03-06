@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import Styles from "./AuthForm.module.css";
+import { authorize, getMe, isResponseOk, setJWT } from "@/app/api/api-utils";
+import { endpoints } from "@/app/api/config";
 
 export const AuthForm = (props) => {
   const [authData, setAuthData] = useState({ identifier: "", password: "" });
@@ -9,28 +11,27 @@ export const AuthForm = (props) => {
     setAuthData({ ...authData, [e.target.name]: e.target.value });
   };
   const handleSubmit = async (e) => {
-    /* Предотвращаем стандартное поведение формы */
     e.preventDefault();
-    /* Вызываем функцию authorize с данными из формы */
+
     const userData = await authorize(endpoints.auth, authData);
-    /* Проверяем ответ сервера с помощью isResponseOk */
+
     if (isResponseOk(userData)) {
-      /* Записываем в стейт данные пользователя с сервера */
+      await getMe(endpoints.me, userData.jwt);
       setUserData(userData);
-      /*  */
+      setJWT(userData.jwt);
+
       props.setAuth(true);
-      /* Записываем сообщение об авторизации */
+
       setMessage({ status: "success", text: "Вы авторизовались!" });
     } else {
-      /* Записываем сообщение об ошибке */
       setMessage({ status: "error", text: "Неверные почта или пароль" });
     }
   };
   useEffect(() => {
-    let timer; 
+    let timer;
     if (userData) {
       timer = setTimeout(() => {
-              /* В props close лежит функция закрытия попапа */
+        /* В props close лежит функция закрытия попапа */
         props.close();
       }, 1000);
     }
@@ -55,7 +56,7 @@ export const AuthForm = (props) => {
           <input
             onInput={handleInput}
             className={Styles["form__field-input"]}
-            name="identifier"
+            name="password"
             type="password"
             placeholder="**********"
           />
