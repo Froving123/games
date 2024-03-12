@@ -1,52 +1,51 @@
 "use client";
 
-import Styles from "./Header.module.css";
-import Link from "next/link";
+import { useState, useContext } from "react";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import Link from "next/link";
+import Styles from "./Header.module.css";
 import { Overlay } from "../Overlay/Overlay";
 import { Popup } from "../Popup/Popup";
 import { AuthForm } from "../AuthForm/AuthForm";
-import { getJWT, getMe, isResponseOk, removeJWT } from "@/app/api/api-utils";
-import { endpoints } from "@/app/api/config";
+import { useStore } from "@/app/store/app-store";
 
 export const Header = () => {
   const [popupIsOpened, setPopupIsOpened] = useState(false);
-  const [isAuthorized, setIsAuthorized] = useState(false);
   const pathname = usePathname();
+  const authContext = useStore();
 
+  // Функция для открытия Popup
   const openPopup = () => {
     setPopupIsOpened(true);
   };
 
+  // Функция для закрытия Popup
   const closePopup = () => {
     setPopupIsOpened(false);
   };
 
-  useEffect(() => {
-    const jwt = getJWT();
-    if (jwt) {
-      getMe(endpoints.me, jwt).then((userData) => {
-        if (isResponseOk(userData)) {
-          setIsAuthorized(true);
-        } else {
-          setIsAuthorized(false);
-          removeJWT();
-        }
-      });
-    }
-  }, []);
-
   const handleLogout = () => {
-    setIsAuthorized(false);
-    removeJWT();
+    authContext.logout(); // Метод logout из контекста
   };
 
   return (
     <header className={Styles["header"]}>
-      <Link href="/" className={Styles["logo"]}>
-        <img className={Styles["logo__image"]} src="./images/logo.svg" alt="Логотип Pindie" />
-      </Link>
+      {pathname === "/" ? (
+        <img
+          className={Styles["logo"]}
+          src="./images/logo.svg"
+          alt="Логотип Pindie"
+        />
+      ) : (
+        <Link href="/" className={Styles["logo"]}>
+          <img
+            className={Styles["logo__image"]}
+            src="./images/logo.svg"
+            alt="Логотип Pindie"
+          />
+        </Link>
+      )}
+
       <nav className={Styles["menu"]}>
         <ul className={Styles["menu__list"]}>
           <li className={Styles["menu__item"]}>
@@ -71,9 +70,9 @@ export const Header = () => {
           </li>
           <li className={Styles["menu__item"]}>
             <Link
-              href="/shooter"
+              href="/shooters"
               className={`${Styles["menu__link"]} ${
-                pathname === "/shooter" ? Styles["menu__link_active"] : ""
+                pathname === "/shooters" ? Styles["menu__link_active"] : ""
               }`}
             >
               Шутеры
@@ -81,9 +80,9 @@ export const Header = () => {
           </li>
           <li className={Styles["menu__item"]}>
             <Link
-              href="/runner"
+              href="/runners"
               className={`${Styles["menu__link"]} ${
-                pathname === "/runner" ? Styles["menu__link_active"] : ""
+                pathname === "/runners" ? Styles["menu__link_active"] : ""
               }`}
             >
               Ранеры
@@ -91,9 +90,9 @@ export const Header = () => {
           </li>
           <li className={Styles["menu__item"]}>
             <Link
-              href="/pixel"
+              href="/pixel-games"
               className={`${Styles["menu__link"]} ${
-                pathname === "/pixel" ? Styles["menu__link_active"] : ""
+                pathname === "/pixel-games" ? Styles["menu__link_active"] : ""
               }`}
             >
               Пиксельные
@@ -101,9 +100,9 @@ export const Header = () => {
           </li>
           <li className={Styles["menu__item"]}>
             <Link
-              href="/TDS"
+              href="/tds"
               className={`${Styles["menu__link"]} ${
-                pathname === "/TDS" ? Styles["menu__link_active"] : ""
+                pathname === "/tds" ? Styles["menu__link_active"] : ""
               }`}
             >
               TDS
@@ -111,12 +110,12 @@ export const Header = () => {
           </li>
         </ul>
         <div className={Styles["auth"]}>
-          {isAuthorized ? (
-            <button button className={Styles["auth__button"]} onClick={handleLogout}>
+          {authContext.isAuth ? (
+            <button className={Styles["auth__button"]} onClick={handleLogout}>
               Выйти
             </button>
           ) : (
-            <button button className={Styles["auth__button"]} onClick={openPopup}>
+            <button className={Styles["auth__button"]} onClick={openPopup}>
               Войти
             </button>
           )}
@@ -124,7 +123,7 @@ export const Header = () => {
       </nav>
       <Overlay isOpened={popupIsOpened} close={closePopup} />
       <Popup isOpened={popupIsOpened} close={closePopup}>
-        <AuthForm close={closePopup} setAuth={setIsAuthorized} />
+        <AuthForm close={closePopup} />
       </Popup>
     </header>
   );
