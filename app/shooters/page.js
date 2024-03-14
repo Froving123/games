@@ -5,12 +5,13 @@ import { CardsList } from "../components/CardsList/CardList";
 import { endpoints } from "../api/config";
 import { Preloader } from "../components/Preloader/Preloader";
 
-export default function New() {
-  const newGames = useGetDataByCategory(endpoints.games, "new");
+export default function ShootersGames() {
+  const shootersGames = useGetDataByCategory(endpoints.games, "shooter");
+
   return (
     <main className="main-inner">
-      {newGames ? (
-        <CardsList id="new" title="Новые" data={newGames} />
+      {shootersGames ? (
+        <CardsList id="shooter" title="Шутеры" data={shootersGames} />
       ) : (
         <Preloader />
       )}

@@ -1,19 +1,20 @@
 "use client";
 
 import { useGetDataByCategory } from "../api/api-hooks";
-import { Preloader } from "../components/Preloader/Preloader"; 
+import { CardsList } from "../components/CardsList/CardList";
 import { endpoints } from "../api/config";
-import { CardsList } from "../components/CardsList/CardsList";
+import { Preloader } from "../components/Preloader/Preloader";
 
-export default function TDS() {
-  const TDSGames = useGetDataByCategory(endpoints.games, "TDS");
+export default function TdsGames() {
+  const TdsGames = useGetDataByCategory(endpoints.games, "TDS");
+
   return (
     <main className="main-inner">
-      {TDSGames ? (
-        <CardsList id="TDS" title="TDS" data={TDSGames} />
+      {TdsGames ? (
+        <CardsList id="TDS" title="ТДС" data={TdsGames} />
       ) : (
         <Preloader />
       )}
     </main>
   );
-} 
+}

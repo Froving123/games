@@ -1,42 +1,44 @@
-import { useEffect, useState } from "react";
 import Styles from "./AuthForm.module.css";
-import { authorize, getMe, isResponseOk, setJWT } from "@/app/api/api-utils";
+import { useState, useEffect } from "react";
+import { authorize } from "@/app/api/api-utils";
 import { endpoints } from "@/app/api/config";
+import { isResponseOk, getMe } from "@/app/api/api-utils";
+import { useStore } from "@/app/store/app-store";
 
 export const AuthForm = (props) => {
+  const authContext = useStore();
   const [authData, setAuthData] = useState({ identifier: "", password: "" });
-  const [userData, setUserData] = useState(null);
   const [message, setMessage] = useState({ status: null, text: null });
+
+  useEffect(() => {
+    let timer;
+    if (authContext.user) {
+      // Данные о user из контекста
+      timer = setTimeout(() => {
+        setMessage({ status: null, text: null });
+        props.close();
+      }, 1000);
+    }
+    return () => clearTimeout(timer);
+  }, [authContext.user]); // Данные о user из контекста
+
   const handleInput = (e) => {
     setAuthData({ ...authData, [e.target.name]: e.target.value });
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const userData = await authorize(endpoints.auth, authData);
 
     if (isResponseOk(userData)) {
-      await getMe(endpoints.me, userData.jwt);
-      setUserData(userData);
-      setJWT(userData.jwt);
-
-      props.setAuth(true);
-
+      authContext.login(userData.user, userData.jwt);
       setMessage({ status: "success", text: "Вы авторизовались!" });
     } else {
       setMessage({ status: "error", text: "Неверные почта или пароль" });
     }
   };
-  useEffect(() => {
-    let timer;
-    if (userData) {
-      timer = setTimeout(() => {
-        /* В props close лежит функция закрытия попапа */
-        props.close();
-      }, 1000);
-    }
-    return () => clearTimeout(timer);
-  }, [userData]);
+
   return (
     <form onSubmit={handleSubmit} className={Styles["form"]}>
       <h2 className={Styles["form__title"]}>Авторизация</h2>
@@ -58,11 +60,13 @@ export const AuthForm = (props) => {
             className={Styles["form__field-input"]}
             name="password"
             type="password"
-            placeholder="**********"
+            placeholder="***********"
           />
         </label>
       </div>
-      {message.status && <p className={Styles["form__message"]}>{message.text}</p>}
+      {message.status && (
+        <p className={Styles["form__message"]}>{message.text}</p>
+      )}
       <div className={Styles["form__actions"]}>
         <button className={Styles["form__reset"]} type="reset">
           Очистить

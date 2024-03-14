@@ -1,3 +1,3 @@
 import { createContext } from "react";
 
-export const AuthContext = useStore;
+export const AuthContext = useStore();

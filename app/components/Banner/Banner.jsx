@@ -1,4 +1,5 @@
 import Styles from "./Banner.module.css";
+import Link from "next/link";
 
 export const Banner = () => {
   return (
@@ -9,14 +10,14 @@ export const Banner = () => {
         </h1>
         <div className={Styles["banner__text-block"]}>
           <p className={Styles.banner__text}>
-            Студенты курсов разрабатывают свои игры на Unity, здесь мы их публикуем. Вы можете
-            играть прямо на сайте. А если у вас есть аккаунт пользователя — получаете возможность
-            голосовать за игры.
+            Студенты курсов разрабатывают свои игры на Unity, здесь мы их
+            публикуем. Вы можете играть прямо на сайте. А если у вас есть
+            аккаунт пользователя — получаете возможность голосовать за игры.
           </p>
         </div>
-        <a href="#popular" className={`button ${Styles.banner__link}`}>
+        <Link href="#popular" className={`button ${Styles.banner__link}`}>
           Смотреть игры
-        </a>
+        </Link>
       </div>
       <img
         src="./images/banner-illustration.jpg"
