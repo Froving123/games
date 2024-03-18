@@ -1,7 +1,9 @@
 import { Banner } from "./components/Banner/Banner";
-import { CardsList } from "./components/CardsList/CardList";
 import { Promo } from "./components/Promo/Promo";
 import { getNormalizedGamesDataByCategory } from "./api/api-utils";
+import { CardsList } from "./components/CardsListSection/CardsList";
+import { CardsSlider } from "./components/CardsListSection/CardsSlider";
+import { CardsListSection } from "./components/CardsListSection/CardsListSection";
 
 export default async function Home() {
   const popularGames = await getNormalizedGamesDataByCategory(
@@ -13,12 +15,11 @@ export default async function Home() {
     "new"
   );
 
-  console.log(newGames);
   return (
     <main>
       <Banner />
-      <CardsList id="popular" title="Популярные" data={popularGames} />
-      <CardsList id="new" title="Новинки" data={newGames} />
+      <CardsListSection id="popular" title="Популярные" data={popularGames} type = 'slider' />
+      <CardsListSection id="new" title="Новинки" data={newGames} type = 'slider' />
       <Promo />
     </main>
   );

@@ -1,5 +1,5 @@
 import "./globals.css";
-import { App } from "./app";
+import { App } from "./App";
 
 export const metadata = {
   title: "Pindie",
