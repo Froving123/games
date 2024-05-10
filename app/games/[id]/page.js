@@ -1,30 +1,26 @@
 "use client";
-
-import Styles from "./Game.module.css";
-import { useRouter } from "next/navigation";
-import { GameNotFound } from "@/app/components/GameNotFound/GameNotFound";
-import { useEffect, useState } from "react";
-import { endpoints } from "@/app/api/config";
+import { endpoints } from "../../api/config";
 import {
   getNormalizedGameDataById,
   isResponseOk,
   checkIfUserVoted,
   vote,
-} from "@/app/api/api-utils";
+} from "../../api/api-utils";
+import { GameNotFound } from "@/app/components/GameNotFound/GameNotFound";
 import { Preloader } from "@/app/components/Preloader/Preloader";
+import { useState, useEffect } from "react";
 import { useStore } from "@/app/store/app-store";
 
-export default function GamePage(props) {
-  const authContext = useStore();
-  const [preloaderVisible, setPreloaderVisible] = useState(true);
-  const [game, setGame] = useState(null);
-  const [isVoted, setIsVoted] = useState(false);
+import Styles from "./Game.module.css";
 
-  const router = useRouter();
+export default function GamePage(props) {
+  const [game, setGame] = useState(null);
+  const [preloaderVisible, setPreloaderVisible] = useState(true);
+  const [isVoted, setIsVoted] = useState(false);
+  const authContext = useStore();
 
   useEffect(() => {
     async function fetchData() {
-      setPreloaderVisible(true);
       const game = await getNormalizedGameDataById(
         endpoints.games,
         props.params.id
@@ -34,20 +30,17 @@ export default function GamePage(props) {
     }
     fetchData();
   }, []);
-
+  
   useEffect(() => {
-    // Данные о пользователе получаем из контекста authContext.user
-    authContext.user && game
-      ? setIsVoted(checkIfUserVoted(game, authContext.user.id))
-      : setIsVoted(false);
+    authContext.user && game ? setIsVoted(checkIfUserVoted(game, authContext.user.id)) : setIsVoted(false);
   }, [authContext.user, game]);
 
   const handleVote = async () => {
-    const jwt = authContext.token; // Данные о токене получаем из контекста
+    const jwt = authContext.token
     let usersIdArray = game.users.length
       ? game.users.map((user) => user.id)
       : [];
-    usersIdArray.push(authContext.user.id); // Данные о пользователе получаем из контекста
+    usersIdArray.push(authContext.user.id);
     const response = await vote(
       `${endpoints.games}/${game.id}`,
       jwt,
@@ -57,12 +50,7 @@ export default function GamePage(props) {
       setGame(() => {
         return {
           ...game,
-          // Данные о пользователе получаем из контекста
           users: [...game.users, authContext.user],
-          users_permissions_users: [
-            ...game.users_permissions_users,
-            authContext.user,
-          ],
         };
       });
       setIsVoted(true);
@@ -96,7 +84,6 @@ export default function GamePage(props) {
                   {game.users.length}
                 </span>
               </p>
-
               <button
                 disabled={!authContext.isAuth || isVoted}
                 className={`button ${Styles["about__vote-button"]}`}

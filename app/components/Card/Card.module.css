@@ -1,6 +1,6 @@
 .card {
-  width: 100%;
   height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   background-color: white;
@@ -8,15 +8,8 @@
 }
 
 .card:hover {
-  background-color: #ffff00;
+  background-color: #FFFF00;
   transform: translate(-8px, -8px);
-}
-
-.card__content-block {
-  padding: 16px 16px 35px;
-  border: 4px solid black;
-  flex-grow: 1;
-  display: grid;
 }
 
 .card__image {
@@ -25,6 +18,13 @@
   object-fit: cover;
   object-position: center;
   border-bottom: 1px solid black;
+}
+
+.card__content-block {
+  padding: 16px 16px 35px;
+  border: 4px solid black;
+  flex-grow: 1;
+  display: grid;
 }
 
 .card__title {
@@ -48,7 +48,7 @@
 }
 
 .card__author .card__accent {
-  font-family: "Rubic One", sans-serif;
+  font-family: 'Rubic One', sans-serif;
 }
 
 .card__votes {
@@ -56,7 +56,7 @@
 }
 
 .card__votes .card__accent {
-  font-family: "Rubic One", sans-serif;
+  font-family: 'Rubic One', sans-serif;
   display: inline-block;
   padding: 4px 17px 25px 4px;
   background-color: black;
@@ -64,6 +64,10 @@
 }
 
 @media (width <= 1440px) {
+  .card__content-block {
+    padding: 16px 16px 26px;
+  }
+
   .card__title {
     font-size: 20px;
   }
