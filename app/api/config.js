@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://froving-st.nomoredomainswork.ru/api'
+export const BASE_URL = 'https://froving.nomoredomainswork.ru/api'
 
 export const endpoints = {
   games: `${BASE_URL}/games`,
