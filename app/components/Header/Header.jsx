@@ -104,7 +104,7 @@ export const Header = () => {
             <Link
               href="/tds"
               className={`${Styles["menu__link"]} ${
-                pathname === "/tds" && Styles["menu__link_active"]
+                pathname === "/TDS" && Styles["menu__link_active"]
               }`}
             >
               TDS
