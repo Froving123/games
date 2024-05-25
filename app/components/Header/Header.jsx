@@ -102,7 +102,7 @@ export const Header = () => {
           </li>
           <li className={Styles["menu__item"]}>
             <Link
-              href="/tds"
+              href="/TDS"
               className={`${Styles["menu__link"]} ${
                 pathname === "/TDS" && Styles["menu__link_active"]
               }`}
