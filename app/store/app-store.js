@@ -21,7 +21,7 @@ export const useStore = create((set) => ({
             if (user) {
               set({ isAuth: true, user, token: jwt });
               setJWT(jwt);
-            } else {
+            } else {    
               set({ isAuth: false, user: null, token: null });
               removeJWT();
             }
