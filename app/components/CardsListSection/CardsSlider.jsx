@@ -45,10 +45,6 @@ export const CardsSlider = (props) => {
     };
     new Swiper(".swiper", options);
   }, []);
-  if (!Array.isArray(props.data)) {
-    return null;
-  }
-
   return (
     <div className={`swiper ${Styles["slider"]}`}>
       <ul className={`swiper-wrapper ${Styles["slider-wrapper"]}`}>
